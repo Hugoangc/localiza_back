@@ -5,32 +5,27 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.practice.localiza.entity.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-
-@Entity
 @Getter
-@Setter
-public class Usuario implements UserDetails{
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserLogin{
 	private Long id;
 	private String username;
 	private String password;
 	private String role;
 
-	@Override
+
+    public UserLogin(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.role = user.getRole();
+    }
 	@JsonIgnore
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
@@ -38,14 +33,6 @@ public class Usuario implements UserDetails{
 		return authorities;
 	}
 
-	@Override
-	public String getPassword() {
-		return password;
-	}
 
-	@Override
-	public String getUsername() {
-		return username;
-	}
 
 }

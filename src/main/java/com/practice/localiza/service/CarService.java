@@ -33,12 +33,16 @@ public class CarService {
         return this.carRepository.findByYearGte(manufactureYear);
     }
 
-    public List<Car> findByBrand(long brandId) {
-        Brand brand = new Brand();
-        brand.setId(brandId);
-        return carRepository.findByBrand(brand);
-    }
+//    public List<Car> findByBrand(long brandId) {
+//        Brand brand = new Brand();
+//        brand.setId(brandId);
+//        return carRepository.findByBrand(brand);
+//    }
 
+
+    public List<Car> findByBrand(long brandId) {
+        return carRepository.findByBrandId(brandId);
+    }
     public List<Car> findAll() {
         return this.carRepository.findAllByCarStatusTrue();
     }
@@ -55,6 +59,11 @@ public class CarService {
         existingCar.setAcessories(newCarData.getAcessories());
         return this.carRepository.save(existingCar);
     }
+
+    public List<Car> findByPriceRange(Double minPrice, Double maxPrice) {
+        return carRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
     @Transactional
     public String softDelete(Long id) {
         Car carToInactivate = this.findById(id);

@@ -7,11 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
+import com.practice.localiza.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.practice.localiza.auth.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,13 +28,12 @@ public class JwtServiceGenerator {
     @Value("${jwt.expiration-hours}")
 	public static final int HORAS_EXPIRACAO_TOKEN = 1;
 
-	public Map<String, Object> gerarPayload(Usuario usuario){
-		//COMPOR O PAYLOAD DO TOKEN
-		
-		Map<String, Object> payloadData = new HashMap<>();
-		payloadData.put("username", usuario.getUsername());
-		payloadData.put("id", usuario.getId().toString());
-		payloadData.put("role", usuario.getRole());
+    public Map<String, Object> gerarPayload(User user){
+
+        Map<String, Object> payloadData = new HashMap<>();
+        payloadData.put("username", user.getUsername());
+        payloadData.put("id", user.getId().toString());
+        payloadData.put("role", user.getRole());
 		//payloadData.put("outracoisa", "teste");
 		
 		return payloadData;
@@ -45,15 +43,15 @@ public class JwtServiceGenerator {
 
 	
 
-	public String generateToken(Usuario usuario) {
+	public String generateToken(User user) {
 
-		Map<String, Object> payloadData = this.gerarPayload(usuario);
+		Map<String, Object> payloadData = this.gerarPayload(user);
 
 		return Jwts
 				.builder()
 				.setClaims(payloadData)
-				.setSubject(usuario.getUsername())
-				.setIssuedAt(new Date(System.currentTimeMillis()))
+                .setSubject(user.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(new Date().getTime() + 3600000 * this.HORAS_EXPIRACAO_TOKEN))
 				.signWith(getSigningKey(), this.ALGORITMO_ASSINATURA)
 				.compact();

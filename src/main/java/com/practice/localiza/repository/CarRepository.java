@@ -14,8 +14,13 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     public List<Car> findByBrandName(String name);
 //    @Query("SELECT c FROM Car c WHERE c.manufactureYear >= :manufactureYear")
     List<Car> findByNameContainingIgnoreCase(String name);
+
     @Query("FROM Car c WHERE c.manufactureYear >= :manufactureYear and c.carStatus = true")
     public List<Car> findByYearGte(Integer manufactureYear);
+
+    List<Car> findByPriceBetween(Double minPrice, Double maxPrice);
+
+    List<Car> findByBrandId(Long brandId);
 
 
 

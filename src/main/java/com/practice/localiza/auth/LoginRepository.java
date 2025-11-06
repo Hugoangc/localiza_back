@@ -2,11 +2,10 @@ package com.practice.localiza.auth;
 
 import java.util.Optional;
 
+import com.practice.localiza.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-
-public interface LoginRepository extends JpaRepository<Usuario, Long>{
-
-	public Optional<Usuario> findByUsername(String login);
-	
+import com.practice.localiza.entity.User;
+public interface LoginRepository extends JpaRepository<User, Long>{
+    public Optional<User> findByUsername(String login);
 }

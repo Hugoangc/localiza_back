@@ -42,7 +42,7 @@ Este backend foi projetado para se integrar com o Angular
     ```properties
     # Configuração do Banco de Dados
     spring.datasource.url=jdbc:mysql://localhost:3306/localiza
-    spring.datasource.username=seu-usuario-mysql
+    spring.datasource.username=seu-userLogin-mysql
     spring.datasource.password=sua-senha-mysql
     spring.jpa.hibernate.ddl-auto=update
 

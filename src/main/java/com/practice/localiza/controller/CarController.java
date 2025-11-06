@@ -31,6 +31,15 @@ public class CarController {
         }
     }
 
+    @GetMapping("/findByPriceRange")
+    public ResponseEntity<List<Car>> findByPriceRange(@RequestParam Double min, @RequestParam Double max) {
+        try {
+            List<Car> list = carService.findByPriceRange(min, max);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
     @GetMapping("/findAll")
     public ResponseEntity<List<Car>> findAll() {
         try {
