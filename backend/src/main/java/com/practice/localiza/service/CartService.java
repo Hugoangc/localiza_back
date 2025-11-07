@@ -67,6 +67,7 @@ public class CartService {
     public void clearCart(User user) {
         Cart cart = getCart(user);
         if (cart != null && cart.getItems() != null && !cart.getItems().isEmpty()) {
+            //cart.getItems().clear(); // teste pra deadlock: Hibernate remove automaticamente o restante
             cartItemRepository.deleteAll(cart.getItems());
             cart.getItems().clear();
             updateCartTotal(cart);
@@ -106,6 +107,7 @@ public class CartService {
 
         return cartItem;
     }
+
     private void updateCartTotal(Cart cart) {
         Double total = cart.getItems().stream()
                 .mapToDouble(CartItem::getCalculatedPrice)

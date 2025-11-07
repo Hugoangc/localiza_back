@@ -45,7 +45,7 @@ public class OrderService {
         order.setOrderDate(Instant.now());
         order.setStatus(OrderStatus.PAID);
 
-        // 4. Converter CartItems em OrderItems
+        //  Converter CartItems em OrderItems
 //        List<OrderItem> orderItems = new ArrayList<>();
 //        for (CartItem cartItem : cart.getItems()) {
 //            OrderItem orderItem = new OrderItem();

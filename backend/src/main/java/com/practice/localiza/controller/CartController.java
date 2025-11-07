@@ -31,6 +31,11 @@ public class CartController {
         CartItem item = cartService.addToCart(user, request);
         return ResponseEntity.ok(item);
     }
+    @DeleteMapping("/clear")
+    public ResponseEntity<Void> clearCart(@AuthenticationPrincipal User user) {
+        cartService.clearCart(user);
+        return ResponseEntity.noContent().build();
+    }
     @PutMapping("/item/{cartItemId}")
     public ResponseEntity<CartItem> updateCartItem(
             @AuthenticationPrincipal User user,
