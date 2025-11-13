@@ -57,6 +57,7 @@ public class CarService {
         existingCar.setManufactureYear(newCarData.getManufactureYear());
         existingCar.setCarStatus(newCarData.isCarStatus());
         existingCar.setAcessories(newCarData.getAcessories());
+        existingCar.setAccMultiplier(newCarData.getAccMultiplier());
         return this.carRepository.save(existingCar);
     }
 

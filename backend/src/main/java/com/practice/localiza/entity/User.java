@@ -31,6 +31,7 @@ public class User implements Serializable, UserDetails {
     private String password;
     private String role;
     private String phone;
+    private String paymentGatewayCustomerId;
 
     @Override
     public boolean equals(Object o) {

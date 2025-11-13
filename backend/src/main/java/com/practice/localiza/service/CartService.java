@@ -6,6 +6,9 @@ import com.practice.localiza.exception.ResourceNotFoundException;
 import com.practice.localiza.repository.CarRepository;
 import com.practice.localiza.repository.CartItemRepository;
 import com.practice.localiza.repository.CartRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import com.practice.localiza.dto.CartItemRequestDTO;
 import com.practice.localiza.repository.AcessoryRepository;
 import com.practice.localiza.repository.CartItemRepository;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -40,7 +44,6 @@ public class CartService {
                     return cartRepository.save(newCart);
                 });
     }
-
 
     @Transactional
     public CartItem addToCart(User user, CartItemRequestDTO request) {
@@ -78,18 +81,6 @@ public class CartService {
 
 
     @Transactional
-    public void clearCart(User user) {
-        Cart cart = getCart(user);
-        if (cart != null && cart.getItems() != null && !cart.getItems().isEmpty()) {
-            cart.getItems().clear(); // teste pra deadlock: Hibernate remove automaticamente o restante
-//            cartItemRepository.deleteAll(cart.getItems());
-//            cart.getItems().clear();
-//            updateCartTotal(cart);
-//            cartRepository.save(cart);
-        }
-    }
-
-    @Transactional
     public void removeFromCart(User user, Long cartItemId) {
         Cart cart = getCart(user);
 
@@ -98,6 +89,19 @@ public class CartService {
 
         updateCartTotal(cart);
         cartRepository.save(cart);
+    }
+
+    @Transactional
+    public void clearCart(User user) {
+        Cart cart = getCart(user);
+        if (cart != null && cart.getItems() != null && !cart.getItems().isEmpty()) {
+            Long cartId = cart.getId();
+            cart = cartRepository.findById(cartId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Cart", cartId));
+            cart.getItems().clear();
+            updateCartTotal(cart);
+            cartRepository.save(cart);
+        }
     }
 
     @Transactional

@@ -10,6 +10,7 @@ public class PaymentRequestDTO {
     private String cardHolderName;
     private String expiryDate;
     private String cvv;
+    //private String paymentMethodToken;
     private Boolean saveCard;
 
 }

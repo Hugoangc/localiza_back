@@ -35,7 +35,7 @@ public class OrderService {
         }
 
         // Processando o Pagamento
-        Payment payment = paymentService.processPayment(paymentDetails, cart.getTotalPrice());
+        Payment payment = paymentService.processPayment(user, paymentDetails, cart.getTotalPrice());
 
         // Criando o pedido
         Order order = new Order();
@@ -45,24 +45,6 @@ public class OrderService {
         order.setOrderDate(Instant.now());
         order.setStatus(OrderStatus.PAID);
 
-        //  Converter CartItems em OrderItems
-//        List<OrderItem> orderItems = new ArrayList<>();
-//        for (CartItem cartItem : cart.getItems()) {
-//            OrderItem orderItem = new OrderItem();
-//            orderItem.setOrder(order);
-//            orderItem.setQuantity(1);
-//
-//            // copy car name
-//            orderItem.setCarId(cartItem.getCar().getId());
-//            orderItem.setCarName(cartItem.getCar().getName());
-//            orderItem.setPurchasedPrice(cartItem.getCalculatedPrice());
-//
-//            // acc names
-//            List<String> accessoryNames = cartItem.getCar().getAcessories()
-//                    .stream()
-//                    .map(Acessory::getName)
-//                    .collect(Collectors.toList());
-//            orderItem.setPurchasedAccessories(accessoryNames);
         List<OrderItem> orderItems = new ArrayList<>();
         for (CartItem cartItem : cart.getItems()) {
             OrderItem orderItem = new OrderItem();
